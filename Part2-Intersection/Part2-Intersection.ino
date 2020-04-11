@@ -18,42 +18,40 @@ void setup() {
     " ldi r18, GN_1 + RD_2  \n"
     " out 0x11, r18 \n"
     ::: "r16", "r18");
-  //Serial.begin(9600);
-  //Light1
 }
 
-const int TLight_1 = 1;
-const int TLight_2 = 2;
+const int TLIGHT_1 = 1;
+const int TLIGHT_2 = 2;
 
 void loop() {
   delay(1000);  
-  stage_3(1);
+  stage_3(TLIGHT_1);
   delay(1000);
-  stage_4(1);
+  stage_4(TLIGHT_1);
   delay(1000);
-  stage_1(1);
+  stage_1(TLIGHT_1);
 
   delay(1000);
 
-  stage_1(2);
+  stage_1(TLIGHT_2);
   delay(1000);
-  stage_2(2);
+  stage_2(TLIGHT_2);
   delay(1000);
-  stage_3(2);
+  stage_3(TLIGHT_2);
 
   delay(1000);
 
-  stage_3(2);
+  stage_3(TLIGHT_2);
   delay(1000);
-  stage_4(2);
+  stage_4(TLIGHT_2);
   delay(1000);
-  stage_1(2);
+  stage_1(TLIGHT_2);
   
   delay(1000);
 
-  stage_1(1);
+  stage_1(TLIGHT_1);
   delay(1000);
-  stage_2(1);
+  stage_2(TLIGHT_1);
   delay(1000);
-  stage_3(1);
+  stage_3(TLIGHT_1);
 }
