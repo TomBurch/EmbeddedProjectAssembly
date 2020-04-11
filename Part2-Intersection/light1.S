@@ -1,6 +1,5 @@
 #include "avr/io.h"
 
-.global clear_all
 .global stage_1
 .global stage_2
 .global stage_3
@@ -14,11 +13,6 @@
 .equ  RD_2, 0x20                  //00010000
 .equ  MASK_1, GN_1 + YE_1 + RD_1  //11100000
 .equ  MASK_2, GN_2 + YE_2 + RD_2  //00011100
-
-clear_all:
-  ldi r16, 0x00
-  out 5, r16
-  ret
 
 //Parameter r23:r24 - Light (0x01, 0x02)
 stage_1:

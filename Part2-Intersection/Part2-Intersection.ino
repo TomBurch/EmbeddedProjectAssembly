@@ -1,5 +1,4 @@
 extern "C" {
-  void clear_all();
   void stage_1(int);
   void stage_2(int);
   void stage_3(int);
