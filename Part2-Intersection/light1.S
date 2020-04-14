@@ -1,18 +1,57 @@
 #include "avr/io.h"
+//#include "avr/pgmspace.h"
 
 .global stage_1
 .global stage_2
 .global stage_3
 .global stage_4
 
-.equ  GN_1, 0x01                  //00100000
-.equ  YE_1, 0x02                  //01000000
-.equ  RD_1, 0x04                  //10000000
-.equ  GN_2, 0x08                  //00000100
-.equ  YE_2, 0x10                  //00001000
-.equ  RD_2, 0x20                  //00010000
-.equ  MASK_1, GN_1 + YE_1 + RD_1  //11100000
-.equ  MASK_2, GN_2 + YE_2 + RD_2  //00011100
+.global stage
+
+.equ  GN_1, 0x01                  //00000001
+.equ  YE_1, 0x02                  //00000010
+.equ  RD_1, 0x04                  //00000100
+.equ  GN_2, 0x08                  //00001000
+.equ  YE_2, 0x10                  //00010000
+.equ  RD_2, 0x20                  //00100000
+.equ  MASK_1, GN_1 + YE_1 + RD_1  //00111000
+.equ  MASK_2, GN_2 + YE_2 + RD_2  //00000111
+.equ  NO_STAGES, 0x04
+
+masks:
+.byte 0x07
+.byte 0x38
+
+lights: 
+.byte 0x04
+.byte 0x06 
+.byte 0x01
+.byte 0x02
+.byte 0x20
+.byte 0x30
+.byte 0x08
+.byte 0x10
+
+//Parameter r23:r24 - Light (0x00, 0x01)
+//          r21:r22 - Stage (0x00 -> 0x03)
+stage:
+  //r18 mask
+  ldi ZH, hi8(masks)
+  ldi ZL, lo8(masks)
+  add ZL, r24 //Index mask table by r24
+  lpm r18, Z  //Store mask value in table
+  com r18     //One's complement
+
+  ldi ZH, hi8(lights)
+  ldi ZL, lo8(lights)
+  ldi r19, NO_STAGES
+  mul r19, r24 //Offset
+  add r19, r22
+  add ZL, r19
+  lpm r19, Z
+  
+  out 0x11, r19
+  ret
 
 //Parameter r23:r24 - Light (0x01, 0x02)
 stage_1:

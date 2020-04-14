@@ -3,6 +3,7 @@ extern "C" {
   void stage_2(int);
   void stage_3(int);
   void stage_4(int);
+  void stage(int, int);
 }
 
 void setup() {
@@ -16,42 +17,21 @@ void setup() {
     " ldi r16, RD_1 + YE_1 + GN_1 + RD_2 + YE_2 + GN_2  \n"
     " out 0x10, r16  \n"
     " ldi r18, GN_1 + RD_2  \n"
+    //"ldi r18, GN_1 + RD_1 + YE_1 \n"
     " out 0x11, r18 \n"
     ::: "r16", "r18");
 }
 
-const int TLIGHT_1 = 1;
-const int TLIGHT_2 = 2;
+const int TLIGHT_1 = 0;
+const int TLIGHT_2 = 1;
 
 void loop() {
-  delay(1000);  
-  stage_3(TLIGHT_1);
+  stage(0, 0);
   delay(1000);
-  stage_4(TLIGHT_1);
+  stage(0, 1);
   delay(1000);
-  stage_1(TLIGHT_1);
-
+  stage(0, 2);
   delay(1000);
-
-  stage_1(TLIGHT_2);
+  stage(0, 3);
   delay(1000);
-  stage_2(TLIGHT_2);
-  delay(1000);
-  stage_3(TLIGHT_2);
-
-  delay(1000);
-
-  stage_3(TLIGHT_2);
-  delay(1000);
-  stage_4(TLIGHT_2);
-  delay(1000);
-  stage_1(TLIGHT_2);
-  
-  delay(1000);
-
-  stage_1(TLIGHT_1);
-  delay(1000);
-  stage_2(TLIGHT_1);
-  delay(1000);
-  stage_3(TLIGHT_1);
 }
