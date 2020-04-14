@@ -1,8 +1,4 @@
 extern "C" {
-  void stage_1(int);
-  void stage_2(int);
-  void stage_3(int);
-  void stage_4(int);
   void stage(int, int);
 }
 
@@ -26,12 +22,35 @@ const int TLIGHT_1 = 0;
 const int TLIGHT_2 = 1;
 
 void loop() {
-  stage(0, 0);
+  stage(TLIGHT_1, 2);
   delay(1000);
-  stage(0, 1);
+  stage(TLIGHT_1, 3);
   delay(1000);
-  stage(0, 2);
+  stage(TLIGHT_1, 0);
+  
   delay(1000);
-  stage(0, 3);
+
+  stage(TLIGHT_2, 0);
+  delay(1000);
+  stage(TLIGHT_2, 1);
+  delay(1000);
+  stage(TLIGHT_2, 2);
+
+  delay(1000);
+
+  stage(TLIGHT_2, 2);
+  delay(1000);
+  stage(TLIGHT_2, 3);
+  delay(1000);
+  stage(TLIGHT_2, 0);
+  
+  delay(1000);
+
+  stage(TLIGHT_1, 0);
+  delay(1000);
+  stage(TLIGHT_1, 1);
+  delay(1000);
+  stage(TLIGHT_1, 2);
+  
   delay(1000);
 }
