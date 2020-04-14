@@ -3,8 +3,8 @@
 .global stage
 
 masks:
-  .byte 0x07 //GN_1 + YE_1 + RD_1
-  .byte 0x38 //GN_2 + YE_2 + RD_2
+  .byte 0xF8 //com GN_1 + YE_1 + RD_1
+  .byte 0xC7 //com GN_2 + YE_2 + RD_2
 
 lights: 
   .byte 0x04 //RD_1
@@ -31,7 +31,6 @@ stage:
   ldi ZL, lo8(masks)
   add ZL, r24         //Index mask table by r24 (light param)
   lpm r18, Z          //Store mask value
-  com r18             //One's complement
 
   ldi ZH, hi8(lights) //Load lights table into Z
   ldi ZL, lo8(lights)
