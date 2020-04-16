@@ -1,5 +1,6 @@
 #include "avr/io.h"
 
+.global start
 .global stage
 
 masks:
@@ -16,7 +17,23 @@ lights:
   .byte 0x08 //GN_2
   .byte 0x10 //YE_2
 
+.equ GN_1, 0x01
+.equ YE_1, 0x02
+.equ RD_1, 0x04
+.equ GN_2, 0x08
+.equ YE_2, 0x10
+.equ RD_2, 0x20
 .equ NO_STAGES, 0x04
+
+//Registers - r17 - Outputs
+//            r18 - Starting light config
+start:
+    ldi r17, RD_1 + YE_1 + GN_1 + RD_2 + YE_2 + GN_2
+    out 0x10, r17
+    ldi r18, GN_1 + RD_2
+    out 0x11, r18
+
+    ret
 
 //Parameters - r23:r24 - Light (0x00, 0x01)
 //             r21:r22 - Stage (0x00 -> 0x03)
