@@ -3,20 +3,6 @@
 .global start
 .global stage
 
-masks:
-  .byte 0xF8 //com GN_1 + YE_1 + RD_1
-  .byte 0xC7 //com GN_2 + YE_2 + RD_2
-
-lights: 
-  .byte 0x04 //RD_1
-  .byte 0x06 //RD_1 + YE_1
-  .byte 0x01 //GN_1
-  .byte 0x02 //YE_1
-  .byte 0x20 //RD_2
-  .byte 0x30 //RD_2 + YE_2
-  .byte 0x08 //GN_2
-  .byte 0x10 //YE_2
-
 .equ GN_1, 0x01
 .equ YE_1, 0x02
 .equ RD_1, 0x04
@@ -24,6 +10,20 @@ lights:
 .equ YE_2, 0x10
 .equ RD_2, 0x20
 .equ NO_STAGES, 0x04
+
+masks:
+  .byte 0xF8 //com GN_1 + YE_1 + RD_1
+  .byte 0xC7 //com GN_2 + YE_2 + RD_2
+
+lights: 
+  .byte RD_1
+  .byte RD_1 + YE_1
+  .byte GN_1
+  .byte YE_1
+  .byte RD_2
+  .byte RD_2 + YE_2
+  .byte GN_2
+  .byte YE_2
 
 //Registers - r17 - Outputs
 //            r18 - Starting light config
