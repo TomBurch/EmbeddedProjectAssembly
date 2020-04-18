@@ -28,13 +28,17 @@ lights:
   .byte RD_2 + YE_2
   .byte GN_2
   .byte YE_2
+  .byte P_RD
+  .byte P_GN
+  .byte 0x00 //Lights off
+  .byte 0x00 //Fill table to even number of rows
 
 //Registers - r17 - Outputs
 //            r18 - Starting light config
 start:
     ldi r17, RD_1 + YE_1 + GN_1 + RD_2 + YE_2 + GN_2 + P_GN + P_RD
     out 0x10, r17
-    ldi r18, GN_1 + RD_2 + P_RD
+    ldi r18, GN_1 + GN_2 + P_RD
     out 0x11, r18
 
     ret
