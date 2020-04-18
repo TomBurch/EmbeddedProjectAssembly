@@ -17,7 +17,7 @@ masks:
   .byte ~(GN_1 + YE_1 + RD_1) //Compliment
   .byte ~(GN_2 + YE_2 + RD_2)
   .byte ~(P_GN + P_RD)
-  .byte 0x00
+  .byte 0x00  //Fill table to even number of rows
 
 lights: 
   .byte RD_1
