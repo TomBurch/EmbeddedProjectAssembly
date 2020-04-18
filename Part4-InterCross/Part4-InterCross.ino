@@ -39,12 +39,19 @@ void flashGreen() {
   }
 }
 
-char command;
+void changePLight() {
+  stage(PLIGHT, P_GN);
+  delay(2000);
+  flashGreen();
+  stage(PLIGHT, P_RD);
+}
 
 void setup() {
   Serial.begin(9600);
   start();
 }
+
+char command;
 
 void loop() {
   while (!Serial.available()) { //Wait for serial input
@@ -57,11 +64,8 @@ void loop() {
   } 
   command = Serial.read();
   if (command == 'c') {
-    stage(PLIGHT, P_GN);
-    delay(2000);
-    flashGreen();
-    stage(PLIGHT, P_RD);
-    delay(2000);
+    changePLight();
+    delay(1000);
   }
   command = '\0'; //Empty character
 }
