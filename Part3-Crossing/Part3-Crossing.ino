@@ -60,5 +60,5 @@ void loop() {
     redToGreen();
     delay(1000); 
   }
-  //command = '\0'; //Empty character
+  command = '\0'; //Empty character
 }
