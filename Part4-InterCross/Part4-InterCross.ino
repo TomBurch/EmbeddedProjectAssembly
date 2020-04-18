@@ -3,11 +3,6 @@ extern "C" {
   void stage(int, int);
 }
 
-void setup() {
-  Serial.begin(9600);
-  start();
-}
-
 const byte TLIGHT_1 = 0;
 const byte TLIGHT_2 = 1;
 const byte PLIGHT   = 2;
@@ -19,25 +14,20 @@ const byte P_RD     = 0;
 const byte P_GN     = 1;
 const byte P_OFF    = 2;
 
-void redToGreen() {
-  flashGreen();
-  stage(PLIGHT, P_RD);
-  delay(500);
-  stage(TLIGHT_1, T_RD_YE);
-  stage(TLIGHT_2, T_RD_YE);
+void interRdToGn(int TLight) {
+  stage(TLight, T_RD);
   delay(1000);
-  stage(TLIGHT_1, T_GN);
-  stage(TLIGHT_2, T_GN);
+  stage(TLight, T_RD_YE);
+  delay(1000);
+  stage(TLight, T_GN);
 }
 
-void greenToRed() {
-  stage(TLIGHT_1, T_YE);
-  stage(TLIGHT_2, T_YE);
+void interGnToRd(int TLight) {
+  stage(TLight, T_GN);
   delay(1000);
-  stage(TLIGHT_1, T_RD);
-  stage(TLIGHT_2, T_RD);
-  delay(500);
-  stage(PLIGHT, P_GN);
+  stage(TLight, T_YE);
+  delay(1000);
+  stage(TLight, T_RD);
 }
 
 void flashGreen() {
@@ -51,14 +41,27 @@ void flashGreen() {
 
 char command;
 
+void setup() {
+  Serial.begin(9600);
+  start();
+}
+
 void loop() {
-  while (!Serial.available()) {} //Wait for serial input
+  while (!Serial.available()) { //Wait for serial input
+    interGnToRd(TLIGHT_1);
+    interRdToGn(TLIGHT_2);
+    delay(1000);          //Traffic flowing, TLight_2
+    interGnToRd(TLIGHT_2);
+    interRdToGn(TLIGHT_1);
+    delay(1000);          //Traffic flowing, TLight_1
+  } 
   command = Serial.read();
   if (command == 'c') {
-    greenToRed();
-    delay(1000);
-    redToGreen();
-    delay(1000); 
+    stage(PLIGHT, P_GN);
+    delay(2000);
+    flashGreen();
+    stage(PLIGHT, P_RD);
+    delay(2000);
   }
   command = '\0'; //Empty character
 }

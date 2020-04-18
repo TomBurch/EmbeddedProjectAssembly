@@ -38,7 +38,7 @@ lights:
 start:
     ldi r17, RD_1 + YE_1 + GN_1 + RD_2 + YE_2 + GN_2 + P_GN + P_RD
     out 0x10, r17
-    ldi r18, GN_1 + GN_2 + P_RD
+    ldi r18, GN_1 + RD_2 + P_RD
     out 0x11, r18
 
     ret
