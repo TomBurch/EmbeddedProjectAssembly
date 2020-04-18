@@ -28,11 +28,9 @@ void greenToRed(int TLight) {
 
 void loop() {
   greenToRed(TLIGHT_1);
-  //delay(500);
   redToGreen(TLIGHT_2);
-  delay(1000);
+  delay(2000);          //Traffic flowing, TLight_2
   greenToRed(TLIGHT_2);
-  //delay(500);
   redToGreen(TLIGHT_1);
-  delay(1000);
+  delay(2000);          //Traffic flowing, TLight_1
 }
