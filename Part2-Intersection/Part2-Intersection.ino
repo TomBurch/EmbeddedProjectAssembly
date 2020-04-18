@@ -7,23 +7,27 @@ void setup() {
   start();
 }
 
-const int TLIGHT_1 = 0;
-const int TLIGHT_2 = 1;
+const byte TLIGHT_1 = 0;
+const byte TLIGHT_2 = 1;
+const byte T_RD     = 0;
+const byte T_RD_YE  = 1;
+const byte T_GN     = 2;
+const byte T_YE     = 3;
 
 void redToGreen(int TLight) {
-  stage(TLight, 0);
+  stage(TLight, T_RD);
   delay(1000);
-  stage(TLight, 1);
+  stage(TLight, T_RD_YE);
   delay(1000);
-  stage(TLight, 2);
+  stage(TLight, T_GN);
 }
 
 void greenToRed(int TLight) {
-  stage(TLight, 2);
+  stage(TLight, T_GN);
   delay(1000);
-  stage(TLight, 3);
+  stage(TLight, T_YE);
   delay(1000);
-  stage(TLight, 0);
+  stage(TLight, T_RD);
 }
 
 void loop() {
