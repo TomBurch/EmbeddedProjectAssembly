@@ -1,5 +1,7 @@
 extern "C" {
-  start();
+  void start();
+  //void sort(byte*);
+  void displayByte(byte);
 }
 
 void generateArray(byte randArray[]) {
@@ -7,6 +9,15 @@ void generateArray(byte randArray[]) {
     byte randByte = random(0, 256);
     randArray[i] = randByte;
   }
+}
+
+//Loop through array[] and print each int
+void outArray(byte array[]) {
+  for(int i = 0; i < 50; i++) {
+    Serial.print(array[i]);
+    Serial.print(", ");
+  }
+  Serial.print("\n");
 }
 
 void setup() {
@@ -22,7 +33,16 @@ void loop() {
   while(!Serial.available()) {}
   command = Serial.read();
   if (command == 'c') {
-    generateArray(randArray);
+    generateArray(randArray);  
+    outArray(randArray);  
+
+    //sort(randArray);
+    //outArray(randArray);
+
+    //Serial.println(randArray[0]);
+    //Serial.println(randArray[49]);
+
+    
   }
   command = '\0';
 }
