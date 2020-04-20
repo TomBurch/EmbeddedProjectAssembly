@@ -1,6 +1,7 @@
 extern "C" {
   void start();
-  //void sort(byte*);
+  void sort(byte*);
+  void swap(byte*, byte*);
   void displayByte(byte);
 }
 
@@ -34,6 +35,8 @@ void loop() {
   command = Serial.read();
   if (command == 'c') {
     generateArray(randArray);  
+    outArray(randArray);
+    swap(&randArray[0], &randArray[1]);
     outArray(randArray);  
 
     //sort(randArray);
