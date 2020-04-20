@@ -80,8 +80,6 @@ FOR:
   adc YH, r16  // Get Adr of array[j]
   ld  r9, Y // Store value of array[j]
 
-  inc r3 // j++
-
   out 0x11, r9
   cp  r9, r4
   brsh NOSWAP // if not (array[j] < pivot), break
@@ -100,6 +98,7 @@ FOR:
   inc r2 // i++
 
 NOSWAP:
+  inc r3 // j++
   JMP FOR
 ENDFOR:
   mov XH, r8
