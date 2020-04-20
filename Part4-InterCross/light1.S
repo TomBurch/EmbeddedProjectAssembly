@@ -36,15 +36,15 @@ lights:
 //Registers - r17 - Outputs
 //            r18 - Starting light config
 start:
-    ldi r17, RD_1 + YE_1 + GN_1 + RD_2 + YE_2 + GN_2 + P_GN + P_RD
-    out 0x10, r17
-    ldi r18, GN_1 + RD_2 + P_RD
-    out 0x11, r18
+  ldi r17, RD_1 + YE_1 + GN_1 + RD_2 + YE_2 + GN_2 + P_GN + P_RD
+  out 0x10, r17
+  ldi r18, GN_1 + RD_2 + P_RD
+  out 0x11, r18
 
-    ret
+  ret
 
-//Parameters - r23:r24 - Light (0x00, 0x01)
-//             r21:r22 - Stage (0x00 -> 0x03)
+//Parameters - r25:r24 - Light (0x00, 0x01)
+//             r23:r22 - Stage (0x00 -> 0x03)
 //
 //Registers  - r17 - light config
 //             r18 - mask
