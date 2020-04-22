@@ -99,11 +99,6 @@ quicksort:
   cp r4, r5
   brsh NOIF
 
-  mov r22, r4
-  mov r20, r5
-  mov r24, r2
-  mov r25, r3 // Necessary?
-
   call partition
   mov r6, r25 // Store partition return
 
@@ -113,8 +108,6 @@ quicksort:
   mov r24, r2
   mov r25, r3
   call quicksort
-
-  out 0x11, r6
 
   mov r22, r6
   inc r22

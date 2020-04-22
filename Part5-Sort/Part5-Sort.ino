@@ -35,20 +35,23 @@ void loop() {
   while(!Serial.available()) {}
   command = Serial.read();
   if (command == 'c') {
-    generateArray(randArray);  
+    generateArray(randArray); 
+     
     outArray(randArray);
     delay(2000);
     quicksort(randArray, 0, 49);
     delay(2000);
     outArray(randArray);  
 
-    //sort(randArray);
-    //outArray(randArray);
+    Serial.println(randArray[0]);
+    Serial.println(randArray[49]);
 
-    //Serial.println(randArray[0]);
-    //Serial.println(randArray[49]);
-
-    
+    displayByte(randArray[0]);
+    delay(3000);
+    displayByte(randArray[49]);  
+    delay(3000);
+  
+    Serial.println();
   }
   command = '\0';
 }
