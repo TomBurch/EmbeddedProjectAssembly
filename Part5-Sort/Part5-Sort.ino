@@ -13,7 +13,6 @@ void generateArray(byte randArray[]) {
   }
 }
 
-//Loop through array[] and print each int
 void outArray(byte array[]) {
   for (int i = 0; i < 50; i++) {
     Serial.print(array[i]);
