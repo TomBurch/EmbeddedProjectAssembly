@@ -1,6 +1,6 @@
 extern "C" {
   void start();
-  void quicksort(byte*);
+  void quicksort(byte*, byte, byte);
   void partition(byte*, byte, byte);
   void swap(byte*, byte*);
   void displayByte(byte);
@@ -15,8 +15,7 @@ void generateArray(byte randArray[]) {
 
 //Loop through array[] and print each int
 void outArray(byte array[]) {
-  for(int i = 0; i < 50; i++) {
-  //for (int i = 0; i < 3; i++) {
+  for (int i = 0; i < 50; i++) {
     Serial.print(array[i]);
     Serial.print(", ");
   }
@@ -30,7 +29,6 @@ void setup() {
 }
 
 byte randArray[50];
-//byte randArray[3] = {5, 3, 4};
 char command;
 
 void loop() {
@@ -39,8 +37,9 @@ void loop() {
   if (command == 'c') {
     generateArray(randArray);  
     outArray(randArray);
-    partition(randArray, 0, 49);
-    //swap(&randArray[0], &randArray[1]);
+    delay(2000);
+    quicksort(randArray, 0, 49);
+    delay(2000);
     outArray(randArray);  
 
     //sort(randArray);

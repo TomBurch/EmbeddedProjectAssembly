@@ -16,14 +16,10 @@ start:
 
   ret
 
-//Parameters - r23:r24 - Input byte
+//Parameters - r24 - Input byte
 //
 displayByte:
   out 0x11, r24
-
-  ret
-
-quicksort:
 
   ret
 
@@ -31,15 +27,125 @@ quicksort:
 //           -     r22 - low index
 //           -     r20 - high index
 //
-//Registers  
-//           - r2    - i increment
+//Registers  - r3:r2 - Adr of array
+//           -    r4 - low index
+//           -    r5 - high index
+//           -    r6 - partition ret value
+//quicksort:
+//  push r2
+//  push r3
+//  push r4
+//  push r5
+//  push r6
+//
+//  mov r2, r24
+//  mov r3, r25
+//  mov r4, r22
+//  mov r5, r20
+//
+//  cp r4, r5
+//  brsh NOIF
+//
+//  mov r22, r4
+//  mov r20, r5
+//  mov r24, r2
+//  mov r25, r3 // Necessary?
+//
+//  call partition
+//  mov r6, r25 // Store partition return
+//
+//  out 0x11, 0x08
+//
+//  dec r6
+//  mov r22, r4
+//  mov r20, r6
+//  call quicksort
+//
+//  inc r6
+//  inc r6
+//  mov r22, r6
+//  mov r20, r5
+//  call quicksort
+//
+//NOIF:
+//  pop r6
+//  pop r5
+//  pop r4
+//  pop r3
+//  pop r2
+//  
+//  ret
+
+//Parameters - r25:r24 - Adr of array
+//           -     r22 - low index
+//           -     r20 - high index
+//
+//Registers  - r3:r2 - Adr of array
+//           -    r4 - low index
+//           -    r5 - high index
+//           -    r6 - partition ret value
+quicksort:
+  push r2
+  push r3
+  push r4
+  push r5
+  push r6
+
+  mov r2, r24
+  mov r3, r25
+  mov r4, r22
+  mov r5, r20
+
+  cp r4, r5
+  brsh NOIF
+
+  mov r22, r4
+  mov r20, r5
+  mov r24, r2
+  mov r25, r3 // Necessary?
+
+  call partition
+  mov r6, r25 // Store partition return
+
+  mov r22, r4
+  mov r20, r6
+  dec r20
+  mov r24, r2
+  mov r25, r3
+  call quicksort
+
+  out 0x11, r6
+
+  mov r22, r6
+  inc r22
+  mov r20, r5
+  mov r24, r2
+  mov r25, r3
+  call quicksort
+  
+NOIF: 
+  pop r6
+  pop r5
+  pop r4
+  pop r3
+  pop r2
+  
+  ret
+
+//Parameters - r25:r24 - Adr of array
+//           -     r22 - low index
+//           -     r20 - high index
+//
+//Registers  - r2    - i increment
 //           - r3    - j increment
 //           - r4    - pivot
-//           - r5    - low parameter
-//           - r6    - high parameter
+//           - r5    - low index
+//           - r6    - high index
 //           - r8:r7 - Adr of array
 //           - r9    - Array[j]
 //           - r16   - ZERO
+//
+//Returns    - r25 - i increment
 partition:  
   push r2
   push r3
@@ -80,7 +186,6 @@ FOR:
   adc YH, r16  // Get Adr of array[j]
   ld  r9, Y // Store value of array[j]
 
-  out 0x11, r9
   cp  r9, r4
   brsh NOSWAP // if not (array[j] < pivot), break
   
@@ -111,6 +216,8 @@ ENDFOR:
   mov r22, ZL
   mov r23, ZH // swap(&array[i], &array[high]
   call swap
+
+  mov r25, r2
   
   pop r16
   pop r9
@@ -121,7 +228,7 @@ ENDFOR:
   pop r4
   pop r3
   pop r2
-    
+  
   ret
 
 //Parameters - r25:r24 - Adr of byte A
