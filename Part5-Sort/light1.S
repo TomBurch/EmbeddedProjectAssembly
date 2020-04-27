@@ -9,10 +9,10 @@
 .equ ZERO, 0x00
 
 start:
-  ldi r17, 0xFF //Set all DDRF ports to output
-  out 0x10, r17
-  ldi r18, 0x00 //Turn all lights off
-  out 0x11, r18
+  ldi r18, 0xFF //Set all DDRF ports to output
+  out 0x10, r18
+  ldi r19, 0x00 //Turn all lights off
+  out 0x11, r19
 
   ret
 
@@ -96,6 +96,8 @@ partition:
   push r8
   push r9
   push r16
+  push r28 //Y
+  push r29 //Y
   
   ldi r16, ZERO
   mov r5, r22
@@ -158,7 +160,9 @@ ENDFOR:
   call swap
 
   mov r25, r2
-  
+
+  pop r29 //Y
+  pop r28 //Y
   pop r16
   pop r9
   pop r8
@@ -179,6 +183,8 @@ ENDFOR:
 swap:
   push r16
   push r17
+  push r28 //Y
+  push r29 //Y
   
   mov XH, r25
   mov XL, r24
@@ -191,6 +197,8 @@ swap:
   st X, r17 // Store value of A in Adr B
   st Y, r16 // Store value of B in Adr A
 
+  pop r29 //Y
+  pop r28 //Y
   pop r17
   pop r16
   
