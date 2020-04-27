@@ -1,7 +1,7 @@
 extern "C" {
   void start();
   void quicksort(byte*, byte, byte);
-  void partition(byte*, byte, byte);
+  byte partition(byte*, byte, byte);
   void swap(byte*, byte*);
   void displayByte(byte);
 }
@@ -22,7 +22,7 @@ void outArray(byte array[]) {
 }
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(19200);
   randomSeed(analogRead(0));
   start();
 }
@@ -31,15 +31,13 @@ byte randArray[50];
 char command;
 
 void loop() {
-  while(!Serial.available()) {}
+  while (!Serial.available()) {}
   command = Serial.read();
   if (command == 'c') {
     generateArray(randArray); 
      
     outArray(randArray);
-    delay(2000);
     quicksort(randArray, 0, 49);
-    delay(2000);
     outArray(randArray);  
 
     Serial.println(randArray[0]);
@@ -49,7 +47,7 @@ void loop() {
     delay(3000);
     displayByte(randArray[49]);  
     delay(3000);
-  
+    displayByte(0x00);
     Serial.println();
   }
   command = '\0';
