@@ -15,16 +15,12 @@ const byte P_GN     = 1;
 const byte P_OFF    = 2;
 
 void interRdToGn(int TLight) {
-  stage(TLight, T_RD);
-  delay(1000);
   stage(TLight, T_RD_YE);
   delay(1000);
   stage(TLight, T_GN);
 }
 
 void interGnToRd(int TLight) {
-  stage(TLight, T_GN);
-  delay(1000);
   stage(TLight, T_YE);
   delay(1000);
   stage(TLight, T_RD);
@@ -47,7 +43,7 @@ void changePLight() {
 }
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(19200);
   start();
 }
 
@@ -55,15 +51,21 @@ char command;
 
 void loop() {
   while (!Serial.available()) { //Wait for serial input
+    delay(2000);
+    
     interGnToRd(TLIGHT_1);
+    delay(1000);
     interRdToGn(TLIGHT_2);
-    delay(1000);          //Traffic flowing, TLight_2
+    
+    delay(2000);
+    
     interGnToRd(TLIGHT_2);
+    delay(1000);
     interRdToGn(TLIGHT_1);
-    delay(1000);          //Traffic flowing, TLight_1
   } 
   command = Serial.read();
   if (command == 'c') {
+    delay(100);
     changePLight();
     delay(1000);
   }
