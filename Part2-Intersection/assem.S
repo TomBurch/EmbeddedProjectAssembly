@@ -12,8 +12,8 @@
 .equ NO_STAGES, 0x04
 
 masks:
-  .byte 0xF8 //com GN_1 + YE_1 + RD_1
-  .byte 0xC7 //com GN_2 + YE_2 + RD_2
+  .byte ~(GN_1 + YE_1 + RD_1)
+  .byte ~(GN_2 + YE_2 + RD_2)
 
 lights: 
   .byte RD_1
@@ -25,41 +25,49 @@ lights:
   .byte GN_2
   .byte YE_2
 
-//Registers - r17 - Outputs
-//            r18 - Starting light config
+//Registers - r18 - Outputs
+//            r19 - Starting light config
 start:
-    ldi r17, RD_1 + YE_1 + GN_1 + RD_2 + YE_2 + GN_2
-    out 0x10, r17
-    ldi r18, GN_1 + RD_2
-    out 0x11, r18
+    ldi r18, RD_1 + YE_1 + GN_1 + RD_2 + YE_2 + GN_2
+    out 0x10, r18 //Set used DDRF ports to output
+    ldi r19, GN_1 + RD_2
+    out 0x11, r19 //Turn starting lights on
 
     ret
 
-//Parameters - r23:r24 - Light (0x00, 0x01)
-//             r21:r22 - Stage (0x00 -> 0x03)
+//Parameters - r24 - Light (0x00, 0x01)
+//             r22 - Stage (0x00 -> 0x03)
 //
-//Registers  - r17 - light config
-//             r18 - mask
-//             r19 - light
+//Registers  - r2  - light config
+//             r3  - mask
+//             r16 - light
 stage:
-  in r17, 0x11        //Store light config
+  push r2
+  push r3
+  push r16
+  
+  in r2, 0x11         //Store light config
   
   ldi ZH, hi8(masks)  //Load masks table into Z
   ldi ZL, lo8(masks)
   add ZL, r24         //Index mask table by r24 (light param)
-  lpm r18, Z          //Store mask value
+  lpm r3, Z           //Store mask value
 
   ldi ZH, hi8(lights) //Load lights table into Z
   ldi ZL, lo8(lights)
-  ldi r19, NO_STAGES
-  mul r19, r24        //Offset = NO_STAGES * light param
-  mov r19, r0         //Store result of mul in r19
-  add r19, r22        //Add stage param to offset
-  add ZL, r19         //Index light table by r19
-  lpm r19, Z          //Store light value
+  ldi r16, NO_STAGES
+  mul r16, r24         //Offset = NO_STAGES * light param
+  mov r16, r0          //Store result of mul in r16
+  add r16, r22         //Add stage param to offset
+  add ZL, r16          //Index light table by r16
+  lpm r16, Z           //Store light value
 
-  and r17, r18        //Mask light config
-  or  r17, r19        //Add new lights 
-  out 0x11, r17       //Apply new light config
+  and r2, r3          //Mask light config
+  or  r2, r16          //Add new lights 
+  out 0x11, r2        //Apply new light config
+
+  pop r16
+  pop r3
+  pop r2
   
   ret
