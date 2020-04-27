@@ -1,36 +1,32 @@
 extern "C" {
-  void stage_1();
-  void stage_2();
-  void stage_3();
-  void stage_4();
+  void start();
+  void stage(int);
 }
 
-void setup {
-  asm volatile (
-    ".equ GN, 0x01          \n"
-    ".equ YE, 0x02          \n"
-    ".equ RD, 0x04          \n"
-    "ldi r16, RD + YE + GN  \n"
-    "out 0x10, r16          \n"
-    "ldi r18, GN            \n"
-    "out 0x11, r18          \n"
-    ::: "r16", "r18");
+void setup() {
+  start();
 }
 
-void loop {
-  stage_3();
-  delay(1000);
-  stage_4();
-  delay(1000);
-  stage_1();
-  
-  delay(1000);
+const byte RD    = 0;
+const byte RD_YE = 1;
+const byte GN    = 2;
+const byte YE    = 3;
 
-  stage_1();
+void redToGreen() {
+  stage(RD_YE);
   delay(1000);
-  stage_2();
+  stage(GN);
+}
+
+void greenToRed() {
+  stage(YE);
   delay(1000);
-  stage_3();
-  
-  delay(1000):
+  stage(RD);
+}
+
+void loop () {
+  delay(2000);
+  greenToRed();
+  delay(2000);
+  redToGreen();
 }
