@@ -33,11 +33,13 @@ char command;
 void loop() {
   while (!Serial.available()) {}
   command = Serial.read();
-  if (command == 'c') {
+  if (command == 's') {
     generateArray(randArray); 
      
     outArray(randArray);
+    delay(1000);
     quicksort(randArray, 0, 49);
+    delay(1000);
     outArray(randArray);  
 
     Serial.println(randArray[0]);
