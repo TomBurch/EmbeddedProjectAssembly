@@ -42,8 +42,8 @@ finish:
 compare:
 
 counter:
-  lds r18, TIFR1
-  sbrs r18, OCF1A //bit 1
+  lds r18, TIFR0
+  sbrs r18, OCF0A //bit 1
   rjmp counter
 
 ret
@@ -52,27 +52,22 @@ ret
 init:
   ldi r19, 0x00
   
-  sts TCCR1B, r19 
-
-  sts TCCR1A, r19
-
-  sts TCNT1H, r19
-  sts TCNT1L, r19
+  sts TCCR0B, r19 
+  sts TCCR0A, r19
+  sts TCNT0, r19
 
   ret
 
 set_prescaler:
-  ldi r20, lo8(COUNTS)
-  ldi r21, hi8(COUNTS)
+  ldi r20, COUNTS
 
-  sts OCR1AH, r21 //Store counts in OCR1A
-  sts OCR1AL, r20
+  sts OCR0A, r20
 
-  lds r18, TCCR1B
+  lds r18, TCCR0B
   
   andi r18, ~((1<<CS02)|(1<<CS01)|(1<<CS00)) //Clear relevant bits
   ori r18, START_COUNT                       //Set prescaler to 64
-  sts TCCR1B, r18
+  sts TCCR0B, r18
 
   ret
 
@@ -80,13 +75,11 @@ reset_count:
   ldi r19, 0x00
   ldi r20, 0x02
 
-  sts TCNT1H, r19 //Set TCNT1 to 0
-  sts TCNT1L, r19
+  sts TCNT0, r19
 
-  sts TIFR1, r20 //Set TIFR1 to 2 (64 prescaler)
+  sts TIFR0, r20 //Set TIFR1 to 2 (64 prescaler)
 
   ret
-
 
 start:
   ldi r18, 0xFF //Set all DDRF ports to output
