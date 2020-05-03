@@ -29,9 +29,9 @@ lights:
 //            r19 - Starting light config
 start:
     ldi r18, RD_1 + YE_1 + GN_1 + RD_2 + YE_2 + GN_2
-    out 0x10, r18 //Set used DDRF ports to output
+    out 0x10, r18        //Set output lights
     ldi r19, GN_1 + RD_2
-    out 0x11, r19 //Turn starting lights on
+    out 0x11, r19        //Turn starting lights on
 
     ret
 
@@ -45,25 +45,26 @@ stage:
   push r2
   push r3
   push r16
+
+  ldi r16, NO_STAGES
   
-  in r2, 0x11         //Store light config
+  ldi ZH, hi8(lights) //Load address of lights into Z
+  ldi ZL, lo8(lights)
   
-  ldi ZH, hi8(masks)  //Load masks table into Z
+  mul r16, r24        //Offset = NO_STAGES * light param
+  mov r16, r0         //Store result of mul in r16
+  add r16, r22        //Offset = Offset + stage param
+  add ZL, r16         //Offset address by value in r16
+  lpm r16, Z          //Store light value from offset address
+
+  ldi ZH, hi8(masks)  //Load address of masks into Z
   ldi ZL, lo8(masks)
   add ZL, r24         //Index mask table by r24 (light param)
-  lpm r3, Z           //Store mask value
+  lpm r3, Z           //Store mask value from offset address
 
-  ldi ZH, hi8(lights) //Load lights table into Z
-  ldi ZL, lo8(lights)
-  ldi r16, NO_STAGES
-  mul r16, r24         //Offset = NO_STAGES * light param
-  mov r16, r0          //Store result of mul in r16
-  add r16, r22         //Add stage param to offset
-  add ZL, r16          //Index light table by r16
-  lpm r16, Z           //Store light value
-
+  in r2, 0x11         //Store current light config
   and r2, r3          //Mask light config
-  or  r2, r16          //Add new lights 
+  or  r2, r16         //Add new lights 
   out 0x11, r2        //Apply new light config
 
   pop r16
