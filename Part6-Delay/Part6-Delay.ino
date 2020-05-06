@@ -1,14 +1,8 @@
 #include "avr/io.h"
 
 extern "C" {
-  void del(unsigned int);
   void displayByte(byte);
   void start();
-  //
-  void init();
-  void set_prescaler();
-  void reset_count();
-  void compare();
   void assem_delay(unsigned int);
 }
 

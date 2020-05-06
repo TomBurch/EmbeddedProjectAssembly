@@ -14,13 +14,13 @@ const byte P_RD     = 0;
 const byte P_GN     = 1;
 const byte P_OFF    = 2;
 
-void interRdToGn(int TLight) {
+void redToGreen(int TLight) {
   stage(TLight, T_RD_YE);
   delay(1000);
   stage(TLight, T_GN);
 }
 
-void interGnToRd(int TLight) {
+void greenToRed(int TLight) {
   stage(TLight, T_YE);
   delay(1000);
   stage(TLight, T_RD);
@@ -53,19 +53,19 @@ void loop() {
   while (!Serial.available()) { //Wait for serial input
     delay(2000);
     
-    interGnToRd(TLIGHT_1);
+    greenToRed(TLIGHT_1);
     delay(1000);
-    interRdToGn(TLIGHT_2);
+    redToGreen(TLIGHT_2);
     
     delay(2000);
     
-    interGnToRd(TLIGHT_2);
+    greenToRed(TLIGHT_2);
     delay(1000);
-    interRdToGn(TLIGHT_1);
+    redToGreen(TLIGHT_1);
   } 
   command = Serial.read();
   if (command == 'c') {
-    delay(100);
+    delay(1000);
     changePLight();
     delay(1000);
   }

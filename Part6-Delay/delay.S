@@ -16,23 +16,23 @@ assem_delay:
   mov ZH, r25          //Store ms param in Z register (as it's 16 bit)
   mov ZL, r24
 
-cycle:
+CYCLE:
   cpi ZH, 0x00         //Check if ZH == 0
-  BRNE timer           //If not, branch to comparison
+  BRNE TIMER           //If not, branch to comparison
   
   cpi ZL, 0x00         //Check if ZL == 0
-  BREQ finish          //If both ZH and ZL are 0, delay is finished
+  BREQ FINISH          //If both ZH and ZL are 0, delay is finished
 
-timer:
+TIMER:
   call wait_for_timer
   call reset_count
   
   clc                  //Clear carry before subtraction
   subi ZL, 0x01        //Subtract 1 from ZL
   sbci ZH, 0x00        //Subtract carry from ZH
-  rjmp cycle           //Jump to start of cycle
+  rjmp CYCLE           //Jump to start of cycle
 
-finish:
+FINISH:
   call clear_registers
 
   ret
@@ -74,10 +74,10 @@ start_timer:
 //
 wait_for_timer:
 
-wait:
+WAIT:
   lds r18, TIFR0  //Get TIFR0
   sbrs r18, OCF0A //When OCF0A (bit 1 of TIFR0) is 1, timer is finished
-  rjmp wait
+  rjmp WAIT
 
 ret
 

@@ -1,8 +1,6 @@
 extern "C" {
   void start();
   void quicksort(byte*, byte, byte);
-  byte partition(byte*, byte, byte);
-  void swap(byte*, byte*);
   void displayByte(byte);
 }
 

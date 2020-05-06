@@ -59,7 +59,7 @@ stage:
 
   ldi ZH, hi8(masks)  //Load address of masks into Z
   ldi ZL, lo8(masks)
-  add ZL, r24         //Index mask table by r24 (light param)
+  add ZL, r24         //Offset address by value in r24 (light param)
   lpm r3, Z           //Store mask value from offset address
 
   in r2, 0x11         //Store current light config

@@ -3,6 +3,8 @@
 .global start
 .global displayByte
 
+//Registers - r18 - Outputs
+//          - r19 - Starting light config
 start:
   ldi r18, 0xFF //Set all DDRF ports to output
   out 0x10, r18
@@ -11,7 +13,7 @@ start:
 
   ret
 
-//Parameters - r24 - Input byte
+//Parameters - r24 - Byte to display
 //
 displayByte:
   out 0x11, r24
