@@ -1,6 +1,7 @@
 extern "C" {      //Assembly function declarations, defined in assem.S
   void start();
   void stage(int);
+  void assem_delay(unsigned int);
 }
 
 void setup() {
@@ -14,19 +15,19 @@ const byte YE    = 3;
 
 void redToGreen() {
   stage(RD_YE);
-  delay(1000);
+  assem_delay(1000);
   stage(GN);
 }
 
 void greenToRed() {
   stage(YE);
-  delay(1000);
+  assem_delay(1000);
   stage(RD);
 }
 
 void loop () {
-  delay(2000);
+  assem_delay(2000);
   greenToRed();
-  delay(2000);
+  assem_delay(2000);
   redToGreen();
 }

@@ -38,7 +38,7 @@ lights:
 start:
   ldi r18, RD_1 + YE_1 + GN_1 + RD_2 + YE_2 + GN_2 + P_GN + P_RD
   out 0x10, r18               //Set output lights
-  ldi r19, GN_1 + GN_2 + P_RD
+  ldi r19, GN_1 + RD_2 + P_RD
   out 0x11, r19               //Turn starting lights on
 
   ret

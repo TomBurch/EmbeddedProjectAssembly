@@ -1,6 +1,7 @@
 extern "C" {
   void start();
   void stage(int, int);
+  void assem_delay(unsigned int);
 }
 
 const byte TLIGHT_1 = 0;
@@ -16,28 +17,28 @@ const byte P_OFF    = 2;
 
 void redToGreen(int TLight) {
   stage(TLight, T_RD_YE);
-  delay(1000);
+  assem_delay(1000);
   stage(TLight, T_GN);
 }
 
 void greenToRed(int TLight) {
   stage(TLight, T_YE);
-  delay(1000);
+  assem_delay(1000);
   stage(TLight, T_RD);
 }
 
 void flashGreen() {
   for (int i = 0; i < 5; i++) {
     stage(PLIGHT, P_GN);
-    delay(200);
+    assem_delay(200);
     stage(PLIGHT, P_OFF);
-    delay(200);
+    assem_delay(200);
   }
 }
 
 void changePLight() {
   stage(PLIGHT, P_GN);
-  delay(2000);
+  assem_delay(2000);
   flashGreen();
   stage(PLIGHT, P_RD);
 }
@@ -51,23 +52,23 @@ char command;
 
 void loop() {
   while (!Serial.available()) { //Wait for serial input
-    delay(2000);
+    assem_delay(2000);
     
     greenToRed(TLIGHT_1);
-    delay(1000);
+    assem_delay(1000);
     redToGreen(TLIGHT_2);
     
-    delay(2000);
+    assem_delay(2000);
     
     greenToRed(TLIGHT_2);
-    delay(1000);
+    assem_delay(1000);
     redToGreen(TLIGHT_1);
   } 
   command = Serial.read();
   if (command == 'c') {
-    delay(1000);
+    assem_delay(1000);
     changePLight();
-    delay(1000);
+    assem_delay(1000);
   }
   command = '\0'; //Empty character
 }

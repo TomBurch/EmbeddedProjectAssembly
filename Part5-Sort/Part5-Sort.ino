@@ -2,6 +2,7 @@ extern "C" {
   void start();
   void quicksort(byte*, byte, byte);
   void displayByte(byte);
+  void assem_delay(unsigned int);
 }
 
 void generateArray(byte randArray[]) {
@@ -35,18 +36,18 @@ void loop() {
     generateArray(randArray); 
      
     outArray(randArray);
-    delay(1000);
+    assem_delay(1000);
     quicksort(randArray, 0, 49);
-    delay(1000);
+    assem_delay(1000);
     outArray(randArray);  
 
     Serial.println(randArray[0]);
     Serial.println(randArray[49]);
 
     displayByte(randArray[0]);
-    delay(3000);
+    assem_delay(3000);
     displayByte(randArray[49]);  
-    delay(3000);
+    assem_delay(3000);
     displayByte(0x00);
     Serial.println();
   }

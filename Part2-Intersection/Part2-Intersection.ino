@@ -1,6 +1,7 @@
 extern "C" {
   void start();
   void stage(int, int);
+  void assem_delay(unsigned int);
 }
 
 void setup() {
@@ -16,26 +17,26 @@ const byte YE       = 3;
 
 void redToGreen(int TLight) {
   stage(TLight, RD_YE);
-  delay(1000);
+  assem_delay(1000);
   stage(TLight, GN);
 }
 
 void greenToRed(int TLight) {
   stage(TLight, YE);
-  delay(1000);
+  assem_delay(1000);
   stage(TLight, RD);
 }
 
 void loop() {
-  delay(2000);
+  assem_delay(2000);
   
   greenToRed(TLIGHT_1);
-  delay(1000);
+  assem_delay(1000);
   redToGreen(TLIGHT_2);
   
-  delay(2000);
+  assem_delay(2000);
   
   greenToRed(TLIGHT_2);
-  delay(1000);
+  assem_delay(1000);
   redToGreen(TLIGHT_1);
 }
